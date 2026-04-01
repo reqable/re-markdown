@@ -1,0 +1,22 @@
+name: re_markdown
+description: Re-Markdown is a lightweight markdown widget for Flutter.
+version: 0.0.1
+homepage: https://reqable.com
+repository: https://github.com/reqable/re-markdown
+
+environment:
+  sdk: '>=2.17.0 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  collection: ^1.17.1  
+  markdown: ^7.1.1
+  re_highlight: ^0.0.3
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
