@@ -7,6 +7,7 @@ class Markdown extends StatefulWidget {
     Key? key,
     required this.data,
     this.styleSheet,
+    this.layoutMode,
     this.blockSyntaxes,
     this.inlineSyntaxes,
     this.extensionSet,
@@ -24,6 +25,10 @@ class Markdown extends StatefulWidget {
   /// Style sheet of markdown.
   final StyleSheet? styleSheet;
 
+  /// Layout mode of markdown document.
+  /// Defaults to [LayoutMode.listView].
+  final LayoutMode? layoutMode;
+
   /// Collection of custom block syntax types to be used parsing the Markdown data.
   final List<md.BlockSyntax>? blockSyntaxes;
 
@@ -38,7 +43,8 @@ class Markdown extends StatefulWidget {
   /// Set the desired scroll controller for the markdown item list.
   final ScrollController? controller;
 
-  /// Set shrinkWrap to obtained [ListView].
+  /// Set shrinkWrap to obtained [ListView],
+  /// only works when [layoutMode] is [LayoutMode.listView].
   final bool shrinkWrap;
 
   /// Content padding of the markdown document.
@@ -96,30 +102,65 @@ class _MarkdownState extends State<Markdown> {
   @override
   Widget build(BuildContext context) {
     final StyleSheet styleSheet = widget.styleSheet ?? StyleSheet.fromTheme(Theme.of(context));
-    return ListView.separated(
-      shrinkWrap: widget.shrinkWrap,
-      controller: widget.controller,
-      itemBuilder: (context, index) {
-        final _SpanNode node = _spans[index];
-        final InlineSpan? span = node.build(context, styleSheet);
-        if (span == null) {
-          return const SizedBox.shrink();
-        }
-        return Text.rich(span);
-      },
-      separatorBuilder: (context, index) {
-        final _SpanNode node = _spans[index];
-        if (node is _ElementNode) {
-          final double spacing = styleSheet.blockSpacing ?? 0;
-          if (spacing > 0) {
-            return SizedBox(height: spacing);
+    switch (widget.layoutMode ?? LayoutMode.listView) {
+      case LayoutMode.listView:
+        return ListView.separated(
+          shrinkWrap: widget.shrinkWrap,
+          controller: widget.controller,
+          itemBuilder: (context, index) {
+            final _SpanNode node = _spans[index];
+            final InlineSpan? span = node.build(context, styleSheet);
+            if (span == null) {
+              return const SizedBox.shrink();
+            }
+            return Text.rich(span);
+          },
+          separatorBuilder: (context, index) {
+            final _SpanNode node = _spans[index];
+            if (node is _ElementNode) {
+              final double spacing = styleSheet.blockSpacing ?? 0;
+              if (spacing > 0) {
+                return SizedBox(
+                  height: spacing
+                );
+              }
+            }
+            return const SizedBox.shrink();
+          },
+          itemCount: _spans.length,
+          padding: widget.padding,
+        );
+      case LayoutMode.scrollView:
+        final List<Widget> children = [];
+        for (final _SpanNode node in _spans) {
+          final InlineSpan? span = node.build(context, styleSheet);
+          if (span == null) {
+            continue;
+          }
+          children.add(Text.rich(span));
+          if (node is _ElementNode) {
+            final double spacing = styleSheet.blockSpacing ?? 0;
+            if (spacing > 0) {
+              children.add(SizedBox(
+                height: spacing
+              )) ;
+            }
           }
         }
-        return const SizedBox.shrink();
-      },
-      itemCount: _spans.length,
-      padding: widget.padding,
-    );
+        return SingleChildScrollView(
+          controller: widget.controller,
+          padding: widget.padding,
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children
+            ),
+          )
+        );
+    }
   }
 
   void _initDocument() {
@@ -150,5 +191,16 @@ class _MarkdownState extends State<Markdown> {
       _spans.addAll(visitor.visit(nodes));
     });
   }
+
+}
+
+/// Layout mode of markdown document.
+enum LayoutMode {
+
+  /// Use [ListView] to layout markdown document.
+  listView,
+
+  /// Use [Column] + [SingleChildScrollView] to layout markdown document.
+  scrollView,
 
 }
