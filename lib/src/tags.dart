@@ -29,5 +29,6 @@ enum MarkdownTag {
   strong,
   img,
   input,
+  comment,
   other
 }

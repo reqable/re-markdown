@@ -204,6 +204,7 @@ SelectionArea(
 - strong
 - img
 - input
+- comment
 
 ## License
 

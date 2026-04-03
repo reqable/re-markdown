@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 part 'builder.dart';
 part 'markdown.dart';
 part 'style_sheet.dart';
+part 'syntax.dart';
 part 'tags.dart';
 
 part '_node.dart';

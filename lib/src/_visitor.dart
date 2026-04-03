@@ -30,6 +30,7 @@ final Map<String, _SpanNodeGenerator> _kNodeGenerators = <String, _SpanNodeGener
   MarkdownTag.br.name: (e, visitor) => _BrNode(),
   MarkdownTag.code.name: (e, visitor) => _CodeNode(e.textContent),
   MarkdownTag.img.name: (e, visitor) => _ImageNode(e.attributes, visitor.imageWidgetBuilder),
+  MarkdownTag.comment.name: (e, visitor) => _CommentNode(e.textContent),
 };
 
 class _NodeVisitor implements md.NodeVisitor {
@@ -61,6 +62,7 @@ class _NodeVisitor implements md.NodeVisitor {
 
   @override
   bool visitElementBefore(md.Element element) {
+    print('tag: ${element.tag} => ${element.textContent}');
     final _SpanNodeGenerator? generator = _kNodeGenerators[element.tag];
     final _SpanNode node = generator?.call(element, this) ?? _TextNode(element.textContent);
     final _SpanNode last = _spansStack.last;

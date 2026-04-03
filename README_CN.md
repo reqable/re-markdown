@@ -198,6 +198,7 @@ SelectionArea(
 - strong
 - img
 - input
+- comment
 
 ## 许可证
 

@@ -784,3 +784,17 @@ class _ImageNode extends _SpanNode {
   }
 
 }
+
+class _CommentNode extends _SpanNode {
+
+  final String text;
+
+  _CommentNode(this.text);
+
+  @override
+  InlineSpan? build(BuildContext context, StyleSheet styleSheet) {
+    // Comments are not rendered, so we return null here.
+    return null;
+  }
+
+}
