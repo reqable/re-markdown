@@ -200,7 +200,7 @@ class _ListNode extends _ElementNode {
         } else {
           decoration = BoxDecoration(
             color: color,
-            shape: BoxShape.circle,
+            shape: BoxShape.rectangle,
           );
         }
         bullet = Container(
