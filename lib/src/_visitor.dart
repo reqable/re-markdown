@@ -62,7 +62,6 @@ class _NodeVisitor implements md.NodeVisitor {
 
   @override
   bool visitElementBefore(md.Element element) {
-    print('tag: ${element.tag} => ${element.textContent}');
     final _SpanNodeGenerator? generator = _kNodeGenerators[element.tag];
     final _SpanNode node = generator?.call(element, this) ?? _TextNode(element.textContent);
     final _SpanNode last = _spansStack.last;
