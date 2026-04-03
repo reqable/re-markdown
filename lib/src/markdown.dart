@@ -132,7 +132,13 @@ class _MarkdownState extends State<Markdown> {
   }
 
   void _updateState() {
-    final List<md.Node> nodes = _document.parse(widget.data);
+    final List<md.Node> nodes;
+    try {
+      nodes = _document.parse(widget.data);
+    } catch (e) {
+      // If parse failed, we skip update state.
+      return;
+    }
     final _NodeVisitor visitor = _NodeVisitor(
       imageWidgetBuilder: widget.imageWidgetBuilder ?? const DefaultImageWidgetBuilder(),
       codeBlockWidgetBuilder: widget.codeBlockWidgetBuilder ?? DefaultCodeBlockWidgetBuilder(),
