@@ -723,6 +723,7 @@ class _CodeNode extends _ElementNode {
       return null;
     }
     return WidgetSpan(
+      alignment: PlaceholderAlignment.middle,
       child: Container(
         padding: styleSheet.codePadding,
         decoration: styleSheet.codeDecoration,
