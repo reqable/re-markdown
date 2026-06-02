@@ -14,7 +14,7 @@
 
 ```yaml
 dependencies:
-  re_markdown: ^0.0.1
+  re_markdown: ^0.0.2
 ```
 
 显示你的Markdown内容：

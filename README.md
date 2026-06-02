@@ -16,7 +16,7 @@ Add the dependency to `pubspec.yaml`.
 
 ```yaml
 dependencies:
-	re_markdown: ^0.0.1
+	re_markdown: ^0.0.2
 ```
 
 Render your Markdown content:
