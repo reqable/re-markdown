@@ -119,7 +119,7 @@ class DefaultImageWidgetBuilder implements ImageWidgetBuilder {
       return const SizedBox.shrink();
     } else if (uri.scheme == 'resource') {
       return Image.asset(
-        '${uri.host}/${uri.path}',
+        '${uri.host}${uri.path}',
         width: width,
         height: height,
         errorBuilder: buildErrorWidget,
