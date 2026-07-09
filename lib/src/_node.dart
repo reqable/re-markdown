@@ -419,7 +419,7 @@ class _TableNode extends _ElementNode {
     return WidgetSpan(
       child: Table(
         border: styleSheet.tableBorder,
-        defaultColumnWidth: styleSheet.tableColumnWidth ?? const FlexColumnWidth(),
+        defaultColumnWidth: styleSheet.tableColumnWidth ?? const IntrinsicColumnWidth(),
         defaultVerticalAlignment: styleSheet.tableVerticalAlignment,
         children: rows,
       ),

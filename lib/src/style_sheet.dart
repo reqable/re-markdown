@@ -99,7 +99,7 @@ class StyleSheet {
       tableBorder: TableBorder.all(
         color: theme.dividerColor,
       ),
-      tableColumnWidth: const FlexColumnWidth(),
+      tableColumnWidth: const IntrinsicColumnWidth(),
       tableCellsPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       tableCellsDecoration: const BoxDecoration(),
       blockquotePadding: const EdgeInsets.all(8.0),
